@@ -110,7 +110,7 @@ class _MainAppState extends State<MainApp> {
                         } else if (!snapshot.hasData) {
                           return const Center(child: Text('NoData'));
                         }
-                        return Weatherdata(weatherData: snapshot.data!);
+                        return WeatherdataWidget(weatherData: snapshot.data!);
                       })
                   : const SizedBox(),
             ],
@@ -121,69 +121,43 @@ class _MainAppState extends State<MainApp> {
   }
 }
 
-class Weatherdata extends StatelessWidget {
+class WeatherdataWidget extends StatelessWidget {
   final WeatherData weatherData;
-  const Weatherdata({super.key, required this.weatherData});
+  const WeatherdataWidget({super.key, required this.weatherData});
+
+  Row formatText({required String label, required String data}) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 120,
+          child: Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+        ),
+        Text(data)
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        formatText(label: "Stadtname:", data: weatherData.name),
+        formatText(label: "Region:", data: weatherData.region),
+        formatText(label: "Land:", data: weatherData.country),
+        formatText(
+            label: "Position:",
+            data: "${weatherData.lat} lat   ${weatherData.lon} lon"),
+        formatText(label: "Zeitzone:", data: weatherData.tz_id),
+        formatText(label: "Abfrage Uhrzeit:", data: weatherData.localtime),
+        formatText(
+            label: "Temperataur:",
+            data: "${weatherData.temp_c}°C ${weatherData.temp_f}F"),
         Row(
           children: [
-            const Text("Stadtname:"),
-            spaceBetween,
-            Text(weatherData.name)
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Region:"),
-            spaceBetween,
-            Text(weatherData.region)
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Land:"),
-            spaceBetween,
-            Text(weatherData.country)
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Position:"),
-            spaceBetween,
-            Text("${weatherData.lat} lat"),
-            spaceBetween,
-            Text("${weatherData.lon} lon"),
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Zeitzone:"),
-            spaceBetween,
-            Text(weatherData.tz_id)
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Abfrage Uhrzeit:"),
-            spaceBetween,
-            Text(weatherData.localtime)
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Temperatur:"),
-            spaceBetween,
-            Text("${weatherData.temp_c}°C ${weatherData.temp_f}F")
-          ],
-        ),
-        Row(
-          children: [
-            const Text("Icon:"),
-            spaceBetween,
+            formatText(label: "Icon:", data: ""),
             Image.network(weatherData.icon)
           ],
         ),
