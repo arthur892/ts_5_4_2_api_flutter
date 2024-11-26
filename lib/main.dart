@@ -46,15 +46,23 @@ class _MainAppState extends State<MainApp> {
       final Map<String, dynamic> decodedJson = jsonDecode(data);
 
       print(decodedJson);
-      final location = decodedJson['location'];
 
-      final Map<String, dynamic> weatherData = decodedJson['location'];
-      print(weatherData);
+      final Map<String, dynamic> weatherDataLocation = decodedJson['location'];
+      final Map<String, dynamic> weatherDataCurrent = decodedJson['current'];
+
+      print(weatherDataLocation);
       return WeatherData(
-          name: weatherData["name"],
-          region: weatherData["region"],
-          country: weatherData["country"],
-          lat: weatherData["lat"]);
+          name: weatherDataLocation["name"],
+          region: weatherDataLocation["region"],
+          country: weatherDataLocation["country"],
+          lat: weatherDataLocation["lat"],
+          lon: weatherDataLocation["lon"],
+          tz_id: weatherDataLocation["tz_id"],
+          localtime: weatherDataLocation["localtime"],
+          temp_c: weatherDataCurrent["temp_c"],
+          temp_f: weatherDataCurrent["temp_f"],
+          icon: "https:" + weatherDataCurrent["condition"]["icon"]);
+
       //return decodedJson;
     } else {
       return Future.error("Stadt nicht gefunden");
@@ -71,6 +79,11 @@ class _MainAppState extends State<MainApp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                onFieldSubmitted: (value) {
+                  setState(() {
+                    showWeatherData = true;
+                  });
+                },
                 controller: controllerSearchCity,
                 decoration:
                     const InputDecoration(label: Text("Stadtname oder PLZ")),
@@ -139,11 +152,41 @@ class Weatherdata extends StatelessWidget {
         ),
         Row(
           children: [
-            const Text("lat"),
+            const Text("Position:"),
             spaceBetween,
-            Text(weatherData.lat.toString())
+            Text("${weatherData.lat} lat"),
+            spaceBetween,
+            Text("${weatherData.lon} lon"),
           ],
-        )
+        ),
+        Row(
+          children: [
+            const Text("Zeitzone:"),
+            spaceBetween,
+            Text(weatherData.tz_id)
+          ],
+        ),
+        Row(
+          children: [
+            const Text("Abfrage Uhrzeit:"),
+            spaceBetween,
+            Text(weatherData.localtime)
+          ],
+        ),
+        Row(
+          children: [
+            const Text("Temperatur:"),
+            spaceBetween,
+            Text("${weatherData.temp_c}°C ${weatherData.temp_f}F")
+          ],
+        ),
+        Row(
+          children: [
+            const Text("Icon:"),
+            spaceBetween,
+            Image.network(weatherData.icon)
+          ],
+        ),
       ],
     );
   }
