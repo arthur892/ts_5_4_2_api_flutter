@@ -35,7 +35,7 @@ class _MainAppState extends State<MainApp> {
 
     final Map<String, dynamic> queryParameters = {
       'q': city,
-      'key': weatherAPIKey
+      'key': api_weather
     };
     final Uri uri =
         Uri.https('api.weatherapi.com', 'v1/current.json', queryParameters);
