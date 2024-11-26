@@ -149,7 +149,8 @@ class WeatherdataWidget extends StatelessWidget {
         formatText(label: "Land:", data: weatherData.country),
         formatText(
             label: "Position:",
-            data: "${weatherData.lat} lat   ${weatherData.lon} lon"),
+            data:
+                "${weatherData.lat.toStringAsFixed(2)} lat   ${weatherData.lon.toStringAsFixed(2)} lon"),
         formatText(label: "Zeitzone:", data: weatherData.tz_id),
         formatText(label: "Abfrage Uhrzeit:", data: weatherData.localtime),
         formatText(
