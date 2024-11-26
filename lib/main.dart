@@ -117,18 +117,22 @@ class Weatherdata extends StatelessWidget {
     return Column(
       children: [
         Row(
-          children: [const Text("Name"), spaceBetween, Text(weatherData.name)],
+          children: [
+            const Text("Stadtname:"),
+            spaceBetween,
+            Text(weatherData.name)
+          ],
         ),
         Row(
           children: [
-            const Text("Region"),
+            const Text("Region:"),
             spaceBetween,
             Text(weatherData.region)
           ],
         ),
         Row(
           children: [
-            const Text("Land"),
+            const Text("Land:"),
             spaceBetween,
             Text(weatherData.country)
           ],
